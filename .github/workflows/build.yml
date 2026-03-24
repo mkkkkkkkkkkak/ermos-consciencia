@@ -2,7 +2,8 @@ name: Build APK
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
   build:
@@ -23,9 +24,9 @@ jobs:
           sudo apt install -y zip unzip openjdk-17-jdk python3-pip
 
       - name: Install buildozer + deps
-  run: |
-    pip install --upgrade pip
-    pip install buildozer cython==0.29.36
+        run: |
+          pip install --upgrade pip
+          pip install buildozer cython==0.29.36
 
       - name: Build APK
         run: |
