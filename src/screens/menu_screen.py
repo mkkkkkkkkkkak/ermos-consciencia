@@ -10,11 +10,11 @@ class MenuScreen(Screen):
 
         btn1 = Button(text="NOVA JORNADA", size_hint=(1, 0.2), font_size="22sp")
         btn2 = Button(text="CONTINUAR", size_hint=(1, 0.2), font_size="22sp")
-        btn3 = Button(text="CONFIGURAÇÕES", size_hint=(1, 0.2), font_size="22sp")
+        btn3 = Button(text="INVENTÁRIO", size_hint=(1, 0.2), font_size="22sp")
 
         btn1.bind(on_press=self.new_game)
         btn2.bind(on_press=self.continue_game)
-        btn3.bind(on_press=self.settings)
+        btn3.bind(on_press=self.open_inventory)
 
         layout.add_widget(btn1)
         layout.add_widget(btn2)
@@ -28,5 +28,5 @@ class MenuScreen(Screen):
     def continue_game(self, *args):
         self.manager.current = "game"
 
-    def settings(self, *args):
-        print("Configurações ainda não implementadas")
+    def open_inventory(self, *args):
+        self.manager.current = "inventory"
