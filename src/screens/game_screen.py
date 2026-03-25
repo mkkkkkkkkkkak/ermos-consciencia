@@ -9,6 +9,7 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.clock import Clock
 from kivy.graphics import Color, Ellipse, Rectangle, Line, RoundedRectangle
 from kivy.core.window import Window
+from kivy.core.text import Label as CoreLabel
 
 from src.systems.world import World
 from src.systems.renderer import GameRenderer
@@ -116,7 +117,6 @@ class ActionButton(Widget):
             Color(r*1.2, g*1.2, b*1.2, 0.5)
             Ellipse(pos=(self.center_x-rs+3, self.center_y+rs*0.3), size=(rs*1.0, rs*0.5))
             # Texto
-            from kivy.core.text import Label as CoreLabel
             lbl = CoreLabel(text=self.label, font_size=11)
             lbl.refresh()
             tx = lbl.texture
@@ -162,7 +162,7 @@ class GameScreen(Screen):
         # Só reinicia o jogo se for nova jornada ou ainda não tiver mundo
         if self.new_game or self.world is None:
             self.setup_game()
-            self.new_game = True  # reset para próxima vez
+            self.new_game = False  # reset para próxima vez
         else:
             # Retornando do inventário/diário — apenas retoma o loop
             pass
@@ -209,43 +209,43 @@ class GameScreen(Screen):
         # Botões de ação
         bw = Window.width
         # Atacar
-        self.btn_attack = ActionButton('⚔️\nAtacar', (0.7, 0.15, 0.15),
+        self.btn_attack = ActionButton('Atacar', (0.7, 0.15, 0.15),
                                         self._on_attack,
                                         pos=(bw-70, 120), size=(56, 56))
         layout.add_widget(self.btn_attack)
 
         # Interagir
-        self.btn_interact = ActionButton('💬\nFalar', (0.2, 0.55, 0.35),
+        self.btn_interact = ActionButton('Falar', (0.2, 0.55, 0.35),
                                           self._on_interact,
                                           pos=(bw-135, 80), size=(56, 56))
         layout.add_widget(self.btn_interact)
 
         # Possuir
-        self.btn_possess = ActionButton('👁️\nPoss.', (0.45, 0.1, 0.65),
+        self.btn_possess = ActionButton('Poss.', (0.45, 0.1, 0.65),
                                          self._on_possess,
                                          pos=(bw-70, 185), size=(56, 56))
         layout.add_widget(self.btn_possess)
 
         # Inventário
-        self.btn_inv = ActionButton('🎒\nInv.', (0.35, 0.28, 0.18),
+        self.btn_inv = ActionButton('Inv.', (0.35, 0.28, 0.18),
                                      self._on_inventory,
                                      pos=(bw-135, 160), size=(56, 56))
         layout.add_widget(self.btn_inv)
 
         # Correr (toggle)
-        self.btn_run = ActionButton('👟\nCorrer', (0.2, 0.4, 0.6),
+        self.btn_run = ActionButton('Correr', (0.2, 0.4, 0.6),
                                      self._on_run,
                                      pos=(200, 20), size=(56, 56))
         layout.add_widget(self.btn_run)
 
         # Usar item rápido
-        self.btn_use = ActionButton('💊\nUsar', (0.5, 0.6, 0.2),
+        self.btn_use = ActionButton('Usar', (0.5, 0.6, 0.2),
                                      self._on_use_quick,
                                      pos=(265, 20), size=(56, 56))
         layout.add_widget(self.btn_use)
 
         # Diário / Mapa
-        self.btn_map = ActionButton('🗺️\nMapa', (0.3, 0.3, 0.4),
+        self.btn_map = ActionButton('Mapa', (0.3, 0.3, 0.4),
                                      self._on_journal,
                                      pos=(bw//2-28, Window.height-60), size=(56, 36))
         layout.add_widget(self.btn_map)

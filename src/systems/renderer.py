@@ -5,8 +5,7 @@ Pixel art estilo História dos Ermos com Kivy
 import math
 from kivy.uix.widget import Widget
 from kivy.graphics import (Color, Rectangle, Ellipse, Line,
-                           RoundedRectangle, Triangle, Mesh)
-from kivy.graphics.texture import Texture
+                           RoundedRectangle)
 from kivy.core.text import Label as CoreLabel
 from src.constants import *
 

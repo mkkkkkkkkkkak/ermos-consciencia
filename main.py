@@ -5,8 +5,8 @@ import os
 os.environ['KIVY_NO_ENV_CONFIG'] = '1'
 
 from kivy.config import Config
-Config.set('graphics', 'width', '480')
-Config.set('graphics', 'height', '854')
+Config.set('graphics', 'width', '854')
+Config.set('graphics', 'height', '480')
 Config.set('graphics', 'resizable', False)
 Config.set('input', 'mouse', 'mouse,multitouch_on_demand')
 
