@@ -5,7 +5,7 @@ package.domain = org.ermos
 source.dir = .
 source.include_exts = py,png,jpg,kv,atlas,json
 version = 0.1
-requirements = python3,kivy
+requirements = python3,kivy==2.3.0,pillow
 orientation = portrait
 fullscreen = 1
 android.permissions = INTERNET,WRITE_EXTERNAL_STORAGE,READ_EXTERNAL_STORAGE
@@ -21,7 +21,3 @@ ios.ios_deploy_branch = 1.10.0
 [buildozer]
 log_level = 2
 warn_on_root = 1
-android.accept_sdk_license = True
-android.skip_update = False
-android.api = 33
-android.minapi = 21

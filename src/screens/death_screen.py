@@ -41,19 +41,33 @@ class DeathScreen(Screen):
 
     def on_touch_down(self, touch):
         w, h = Window.size
-        # Reviver
-        if h*0.30 < touch.y < h*0.42:
-            game = self.manager.get_screen('game')
-            if game.player and game.world:
-                px = game.world.width // 2
-                py = game.world.height * 3 // 4
-                game.player.reviver(px, py)
+        btn_h = max(48, int(h * 0.065))
+        bw = max(220, int(w * 0.55))
+        margin = 12
+
+        # Botão "POSSUIR NOVO CORPO" — centro em h*0.355
+        revive_cy = h * 0.355
+        if (revive_cy - btn_h//2 - margin) < touch.y < (revive_cy + btn_h//2 + margin):
+            try:
+                game = self.manager.get_screen('game')
+                if game.player and game.world:
+                    px = game.world.width // 2
+                    py = game.world.height * 3 // 4
+                    game.player.reviver(px, py)
+                    game.new_game = False
+                else:
+                    game.new_game = True
+                self.manager.current = 'game'
+            except Exception:
                 self.manager.current = 'game'
             return True
-        # Menu
-        if h*0.18 < touch.y < h*0.29:
+
+        # Botão "MENU PRINCIPAL" — centro em h*0.225
+        menu_cy = h * 0.225
+        if (menu_cy - btn_h//2 - margin) < touch.y < (menu_cy + btn_h//2 + margin):
             self.manager.current = 'menu'
             return True
+
         return super().on_touch_down(touch)
 
 
@@ -86,23 +100,27 @@ class DeathCanvas(Widget):
             self._txt('a consciência persiste...', w//2, h*0.58, 16, center=True)
 
             # Botão Reviver
-            bw, bh2 = 220, 48
-            bx, by = w//2-bw//2, h*0.30
+            bw = max(220, int(w * 0.55))
+            btn_h = max(48, int(h * 0.065))
+            bx = w//2 - bw//2
+            revive_cy = int(h * 0.355)
+            by = revive_cy - btn_h//2
             Color(0.25, 0.0, 0.35, 0.85)
-            RoundedRectangle(pos=(bx, by), size=(bw, bh2), radius=[8])
+            RoundedRectangle(pos=(bx, by), size=(bw, btn_h), radius=[8])
             Color(0.5, 0.1, 0.7, 0.9)
-            Line(rectangle=(bx, by, bw, bh2), width=1.2)
+            Line(rectangle=(bx, by, bw, btn_h), width=1.5)
             Color(0.85, 0.75, 0.95, 1)
-            self._txt('👁️  POSSUIR NOVO CORPO', w//2, by+bh2//2, 14, center=True)
+            self._txt('POSSUIR NOVO CORPO', w//2, revive_cy, max(14, int(btn_h*0.35)), center=True)
 
             # Botão Menu
-            bx2, by2 = w//2-bw//2, h*0.19
+            menu_cy = int(h * 0.225)
+            by2 = menu_cy - btn_h//2
             Color(0.12, 0.10, 0.08, 0.8)
-            RoundedRectangle(pos=(bx2, by2), size=(bw, 44), radius=[8])
+            RoundedRectangle(pos=(bx, by2), size=(bw, btn_h), radius=[8])
             Color(0.4, 0.35, 0.25, 0.7)
-            Line(rectangle=(bx2, by2, bw, 44), width=1)
+            Line(rectangle=(bx, by2, bw, btn_h), width=1.2)
             Color(0.65, 0.60, 0.50, 0.9)
-            self._txt('MENU PRINCIPAL', w//2, by2+22, 14, center=True)
+            self._txt('MENU PRINCIPAL', w//2, menu_cy, max(14, int(btn_h*0.35)), center=True)
 
             # Info perda
             Color(0.45, 0.40, 0.35, 0.6)

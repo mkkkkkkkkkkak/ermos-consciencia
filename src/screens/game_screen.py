@@ -151,14 +151,27 @@ class GameScreen(Screen):
         self.paused = False
         self.npc_dialogo = None
         self.world_speed = 1.0
+        # new_game=True → nova jornada; False → continuar jogo existente
+        self.new_game = True
 
     def on_enter(self):
-        self.setup_game()
+        # Cancela loop anterior se existir (evita duplicatas)
+        if self.game_loop:
+            self.game_loop.cancel()
+            self.game_loop = None
+        # Só reinicia o jogo se for nova jornada ou ainda não tiver mundo
+        if self.new_game or self.world is None:
+            self.setup_game()
+            self.new_game = True  # reset para próxima vez
+        else:
+            # Retornando do inventário/diário — apenas retoma o loop
+            pass
         self.game_loop = Clock.schedule_interval(self.update, TICK_RATE)
 
     def on_leave(self):
         if self.game_loop:
             self.game_loop.cancel()
+            self.game_loop = None
 
     def setup_game(self, save_data=None):
         self.clear_widgets()
@@ -459,9 +472,11 @@ class GameScreen(Screen):
         self.hud.adicionar_mensagem("Nada útil no inventário.", (0.6, 0.6, 0.55))
 
     def _on_inventory(self):
+        self.new_game = False   # preserva o jogo atual
         self.manager.current = 'inventory'
 
     def _on_journal(self):
+        self.new_game = False   # preserva o jogo atual
         self.manager.current = 'journal'
 
     def _on_player_death(self):
